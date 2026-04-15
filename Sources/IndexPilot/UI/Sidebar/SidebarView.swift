@@ -40,9 +40,19 @@ struct SidebarView: View {
             // Navigation items
             Section("Analysis") {
                 ForEach(SidebarItem.allCases, id: \.self) { item in
-                    Label(item.rawValue, systemImage: item.icon)
+                    HStack {
+                        Label(item.rawValue, systemImage: item.icon)
+                        Spacer(minLength: 8)
+                        if let count = badgeCount(for: item) {
+                            Text("\(count)")
+                                .font(.caption2.weight(.semibold))
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(Color.secondary.opacity(0.16), in: Capsule())
+                                .foregroundStyle(.secondary)
+                        }
+                    }
                         .tag(item)
-                        .badge(badgeCount(for: item))
                 }
             }
         }

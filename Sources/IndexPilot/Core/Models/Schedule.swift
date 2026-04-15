@@ -48,7 +48,7 @@ struct Schedule: Identifiable, Codable {
             case .daily(let hour, let minute):
                 components.hour = hour
                 components.minute = minute
-                var candidate = Calendar.current.nextDate(
+                let candidate = Calendar.current.nextDate(
                     after: reference,
                     matching: components,
                     matchingPolicy: .nextTime

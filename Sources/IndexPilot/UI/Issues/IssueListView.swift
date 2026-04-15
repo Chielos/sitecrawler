@@ -191,6 +191,9 @@ struct FilterChip: View {
     let color: Color
     let action: () -> Void
 
+    private let badgeBackground = Color.secondary.opacity(0.18)
+    private let borderColor = Color.secondary.opacity(0.24)
+
     var body: some View {
         Button(action: action) {
             HStack(spacing: 4) {
@@ -200,7 +203,7 @@ struct FilterChip: View {
                         .font(.system(size: 10, weight: .bold))
                         .padding(.horizontal, 5)
                         .padding(.vertical, 1)
-                        .background(isSelected ? color : .quaternary, in: Capsule())
+                        .background(isSelected ? color : badgeBackground, in: Capsule())
                         .foregroundStyle(isSelected ? .white : .secondary)
                 }
             }
@@ -209,7 +212,7 @@ struct FilterChip: View {
             .background(isSelected ? color.opacity(0.15) : .clear, in: RoundedRectangle(cornerRadius: 6))
             .overlay(
                 RoundedRectangle(cornerRadius: 6)
-                    .stroke(isSelected ? color : .separator, lineWidth: 1)
+                    .stroke(isSelected ? color : borderColor, lineWidth: 1)
             )
             .foregroundStyle(isSelected ? color : .primary)
         }

@@ -5,9 +5,7 @@ struct URLTableView: View {
     @Environment(AppEnvironment.self) private var env
     @Binding var selectedURL: CrawledURL?
 
-    @State private var sortOrder: [KeyPathComparator<CrawledURL>] = [
-        .init(\.crawlDepth, order: .forward)
-    ]
+    @State private var sortOrder: [KeyPathComparator<CrawledURL>] = []
     @State private var searchText: String = ""
     @State private var statusFilter: StatusFilter = .all
     @State private var indexabilityFilter: IndexabilityFilter = .all
@@ -55,7 +53,7 @@ struct URLTableView: View {
     // MARK: — Table
 
     private var table: some View {
-        Table(of: CrawledURL.self, selection: $selectedURL, sortOrder: $sortOrder) {
+        Table(of: CrawledURL.self, selection: selectedURLID, sortOrder: $sortOrder) {
             TableColumn("URL", value: \.normalizedURL) { url in
                 URLTableCell(url: url)
             }
@@ -128,11 +126,26 @@ struct URLTableView: View {
     }
 
     private var sortedFilteredURLs: [CrawledURL] {
-        filteredURLs.sorted(using: sortOrder)
+        if sortOrder.isEmpty {
+            return filteredURLs.sorted { lhs, rhs in
+                lhs.crawlDepth < rhs.crawlDepth
+            }
+        }
+
+        return filteredURLs.sorted(using: sortOrder)
     }
 
     private var navigationTitle: String {
         env.selectedProject.map { "URLs — \($0.name)" } ?? "URLs"
+    }
+
+    private var selectedURLID: Binding<CrawledURL.ID?> {
+        Binding(
+            get: { selectedURL?.id },
+            set: { newValue in
+                selectedURL = sortedFilteredURLs.first { $0.id == newValue }
+            }
+        )
     }
 }
 

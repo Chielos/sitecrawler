@@ -23,7 +23,7 @@ final class DatabaseManager: Sendable {
     init() throws {
         var config = Configuration()
         config.label = "IndexPilot.DB.InMemory"
-        pool = try DatabasePool(configuration: config)
+        pool = try DatabasePool(path: ":memory:", configuration: config)
         try migrate()
     }
 
@@ -138,7 +138,7 @@ extension DatabaseManager {
                 UPDATE crawl_sessions SET status = ?, completed_at = ? WHERE id = ?
             """, arguments: [
                 status.rawValue,
-                completedAt?.timeIntervalSince1970 as Any,
+                completedAt?.timeIntervalSince1970,
                 sessionID.uuidString,
             ])
         }
@@ -250,24 +250,24 @@ extension DatabaseManager {
             )
         """, arguments: [
             u.id.uuidString, u.sessionID.uuidString, u.url, u.normalizedURL,
-            u.discoveredAt.timeIntervalSince1970, u.fetchedAt?.timeIntervalSince1970 as Any,
+            u.discoveredAt.timeIntervalSince1970, u.fetchedAt?.timeIntervalSince1970,
             u.crawlDepth, u.source.rawValue, u.isInternal ? 1 : 0,
-            u.statusCode as Any, u.contentType as Any, u.finalURL as Any,
+            u.statusCode, u.contentType, u.finalURL,
             jsonString(u.redirectChain),
-            u.responseTimeMs as Any, u.contentSizeBytes as Any,
-            u.fetchError.map { $0.displayString } as Any,
-            u.title as Any, u.titleLength as Any,
-            u.metaDescription as Any, u.metaDescriptionLength as Any,
-            u.h1 as Any, u.h1Count, u.h2Count,
-            u.canonicalURL as Any,
+            u.responseTimeMs, u.contentSizeBytes,
+            u.fetchError.map { $0.displayString },
+            u.title, u.titleLength,
+            u.metaDescription, u.metaDescriptionLength,
+            u.h1, u.h1Count, u.h2Count,
+            u.canonicalURL,
             jsonString(u.robotsDirectives), jsonString(u.hreflangTags),
-            u.openGraphTitle as Any, u.openGraphDescription as Any,
+            u.openGraphTitle, u.openGraphDescription,
             jsonString(u.structuredDataTypes),
             u.internalInlinkCount, u.internalOutlinkCount,
             u.externalOutlinkCount, u.imageCount,
-            u.wordCount as Any, u.contentHash as Any,
+            u.wordCount, u.contentHash,
             u.isIndexable ? 1 : 0,
-            u.indexabilityReason?.rawValue as Any,
+            u.indexabilityReason?.rawValue,
             u.isBlockedByRobots ? 1 : 0,
         ])
     }
@@ -430,13 +430,13 @@ extension DatabaseManager {
             remediation: row["remediation"]
         )
         let data: [String: String] = (try? decodeJSON(row["data_json"])) ?? [:]
-        var issue = Issue(
+        let issue = Issue(
+            id: UUID(),
             sessionID: sessionID,
             url: row["url"],
             definition: def,
             data: data
         )
-        issue.id = UUID()  // synthetic; not stored
         return issue
     }
 }
@@ -457,7 +457,7 @@ extension DatabaseManager {
                     link.sessionID.uuidString,
                     link.sourceURL,
                     link.targetURL,
-                    link.anchorText as Any,
+                    link.anchorText,
                     jsonString(link.rel),
                     link.tagName.rawValue,
                     link.isInternal ? 1 : 0,
@@ -499,7 +499,7 @@ extension DatabaseManager {
             try db.execute(sql: """
                 INSERT OR REPLACE INTO robots_cache (session_id, host, content, fetched_at)
                 VALUES (?, ?, ?, ?)
-            """, arguments: [sessionID.uuidString, host, content as Any, Date().timeIntervalSince1970])
+            """, arguments: [sessionID.uuidString, host, content, Date().timeIntervalSince1970])
         }
     }
 

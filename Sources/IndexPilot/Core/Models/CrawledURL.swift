@@ -2,7 +2,7 @@ import Foundation
 
 /// The complete analysis record for one URL within a crawl session.
 /// Written to the database after a URL is fetched and analyzed.
-struct CrawledURL: Identifiable, Codable {
+struct CrawledURL: Identifiable, Codable, Sendable {
     let id: UUID
     let sessionID: UUID
 
@@ -85,13 +85,13 @@ struct CrawledURL: Identifiable, Codable {
 
 // MARK: — Supporting Types
 
-struct RedirectHop: Codable, Hashable {
+struct RedirectHop: Codable, Hashable, Sendable {
     var fromURL: String
     var toURL: String
     var statusCode: Int
 }
 
-struct RobotsDirectives: Codable, Hashable {
+struct RobotsDirectives: Codable, Hashable, Sendable {
     var noindex: Bool = false
     var nofollow: Bool = false
     var noarchive: Bool = false
@@ -105,20 +105,20 @@ struct RobotsDirectives: Codable, Hashable {
     var isFollowable: Bool { !nofollow }
 }
 
-struct HreflangTag: Codable, Hashable {
+struct HreflangTag: Codable, Hashable, Sendable {
     var lang: String
     var url: String
     var region: String?
 }
 
-enum URLSource: String, Codable, CaseIterable {
+enum URLSource: String, Codable, CaseIterable, Sendable {
     case crawl = "crawl"
     case sitemap = "sitemap"
     case seed = "seed"
     case imported = "imported"
 }
 
-enum IndexabilityReason: String, Codable {
+enum IndexabilityReason: String, Codable, Sendable {
     case noindex = "noindex"
     case canonicalizedElsewhere = "canonical_elsewhere"
     case blockedByRobots = "blocked_robots"
@@ -127,7 +127,7 @@ enum IndexabilityReason: String, Codable {
     case nonHTMLContent = "non_html_content"
 }
 
-enum FetchError: Codable {
+enum FetchError: Codable, Equatable, Sendable {
     case timeout
     case dnsFailure(String)
     case connectionRefused

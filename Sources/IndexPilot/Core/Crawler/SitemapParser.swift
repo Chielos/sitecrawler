@@ -2,7 +2,7 @@ import Foundation
 
 /// Parses XML sitemaps: standard sitemap, sitemap index, and news/image/video extensions.
 /// Handles gzip-encoded sitemaps transparently via URLSession.
-struct SitemapParser: NSObject, XMLParserDelegate {
+final class SitemapParser: NSObject, XMLParserDelegate {
 
     // MARK: — Types
 
@@ -66,7 +66,7 @@ struct SitemapParser: NSObject, XMLParserDelegate {
     private var isSitemapIndex: Bool = false
     private var currentText: String = ""
 
-    private mutating func parseXML(data: Data) -> ParseResult {
+    private func parseXML(data: Data) -> ParseResult {
         let parser = XMLParser(data: data)
         parser.delegate = self
         parser.parse()

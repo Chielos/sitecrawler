@@ -127,7 +127,7 @@ enum IssueRegistry {
 // MARK: — Convenience Issue Builder
 
 extension PerURLCheck {
-    func issue(for url: CrawledURL, data: [String: String] = []) -> Issue {
+    func issue(for url: CrawledURL, data: [String: String] = [:]) -> Issue {
         Issue(sessionID: url.sessionID, url: url.normalizedURL, definition: definition, data: data)
     }
     func noIssue() -> Issue? { nil }

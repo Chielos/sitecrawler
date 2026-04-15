@@ -1,4 +1,5 @@
 import Foundation
+import GRDB
 
 struct MissingTitleCheck: PerURLCheck {
     let definition = IssueDefinition(
@@ -65,7 +66,7 @@ struct DuplicateTitleCheck: AggregateCheck {
     )
 
     func evaluate(sessionID: UUID, db: DatabaseManager) -> [Issue] {
-        guard let rows = try? db.pool.read(block: { db in
+        guard let rows = try? db.pool.read({ db in
             try Row.fetchAll(db, sql: """
                 SELECT title, COUNT(*) as cnt
                 FROM crawled_urls
@@ -78,7 +79,7 @@ struct DuplicateTitleCheck: AggregateCheck {
         let duplicateTitles = Set(rows.compactMap { $0["title"] as String? }.map { $0.lowercased() })
         guard !duplicateTitles.isEmpty else { return [] }
 
-        guard let affectedURLs = try? db.pool.read(block: { db in
+        guard let affectedURLs = try? db.pool.read({ db in
             try Row.fetchAll(db, sql: """
                 SELECT normalized_url, title FROM crawled_urls
                 WHERE session_id = ? AND is_indexable = 1

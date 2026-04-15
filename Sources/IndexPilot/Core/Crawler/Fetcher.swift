@@ -7,19 +7,19 @@ struct Fetcher {
 
     let configuration: CrawlConfiguration
     private let session: URLSession
+    private let redirectDelegate = RedirectDelegate()
 
     // MARK: — Init
 
     init(configuration: CrawlConfiguration) {
         self.configuration = configuration
         let config = URLSessionConfiguration.ephemeral
-        config.httpShouldFollowRedirects = false  // we follow manually
         config.timeoutIntervalForRequest = configuration.timeoutSeconds
         config.timeoutIntervalForResource = configuration.timeoutSeconds * 3
         config.httpMaximumConnectionsPerHost = configuration.maxConcurrentRequestsPerHost
         config.httpAdditionalHeaders = Self.mergeHeaders(configuration)
         config.waitsForConnectivity = false
-        self.session = URLSession(configuration: config)
+        self.session = URLSession(configuration: config, delegate: redirectDelegate, delegateQueue: nil)
     }
 
     private static func mergeHeaders(_ config: CrawlConfiguration) -> [String: String] {
@@ -188,11 +188,24 @@ struct Fetcher {
             switch urlError.code {
             case .timedOut: return .timeout
             case .cannotFindHost: return .dnsFailure(urlError.failingURL?.host ?? "unknown")
-            case .connectionRefused: return .connectionRefused
+            case .cannotConnectToHost: return .connectionRefused
             default: return .unknown(urlError.localizedDescription)
             }
         }
         return .unknown(error.localizedDescription)
+    }
+}
+
+private final class RedirectDelegate: NSObject, URLSessionTaskDelegate {
+
+    func urlSession(
+        _ session: URLSession,
+        task: URLSessionTask,
+        willPerformHTTPRedirection response: HTTPURLResponse,
+        newRequest request: URLRequest,
+        completionHandler: @escaping (URLRequest?) -> Void
+    ) {
+        completionHandler(nil)
     }
 }
 

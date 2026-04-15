@@ -1,4 +1,5 @@
 import Foundation
+import GRDB
 
 // MARK: — Canonical Issues
 
@@ -171,7 +172,7 @@ struct DuplicateContentHashCheck: AggregateCheck {
     )
 
     func evaluate(sessionID: UUID, db: DatabaseManager) -> [Issue] {
-        guard let rows = try? db.pool.read(block: { db in
+        guard let rows = try? db.pool.read({ db in
             try Row.fetchAll(db, sql: """
                 SELECT normalized_url, content_hash FROM crawled_urls
                 WHERE session_id = ? AND content_hash IS NOT NULL AND is_indexable = 1

@@ -78,12 +78,12 @@ final class AppEnvironment {
         recentURLs = []
         crawlStats = CrawlStats()
 
-        let stream = engine.start(
-            projectID: project.id,
-            seedURLs: project.seedURLs
-        )
-
         crawlEventTask = Task {
+            let stream = await engine.start(
+                projectID: project.id,
+                seedURLs: project.seedURLs
+            )
+
             for await event in stream {
                 handleCrawlEvent(event)
             }

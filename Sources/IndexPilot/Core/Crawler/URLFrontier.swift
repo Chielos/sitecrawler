@@ -1,4 +1,5 @@
 import Foundation
+import GRDB
 
 /// Priority queue + deduplication layer for the crawl frontier.
 ///

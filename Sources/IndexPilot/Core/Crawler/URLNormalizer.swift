@@ -87,9 +87,7 @@ struct URLNormalizer {
         if let rawQuery = components.percentEncodedQuery {
             components.percentEncodedQuery = normalizePercentEncoding(rawQuery)
         }
-        if let rawPath = components.percentEncodedPath {
-            components.percentEncodedPath = normalizePercentEncoding(rawPath)
-        }
+        components.percentEncodedPath = normalizePercentEncoding(components.percentEncodedPath)
 
         // 8. HTTP → HTTPS canonicalisation (treat as same resource when configured)
         // Note: this only affects deduplication. The actual crawl always uses the real scheme.

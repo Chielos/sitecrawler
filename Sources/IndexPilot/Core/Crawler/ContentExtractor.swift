@@ -205,8 +205,8 @@ struct ContentExtractor {
         guard let scripts = try? doc.select("script[type~=(?i)application/ld\\+json]") else { return [] }
         var types: [String] = []
         for script in scripts {
-            guard let json = try? script.data(),
-                  let data = json.data(using: .utf8),
+            let json = script.data()
+            guard let data = json.data(using: .utf8),
                   let obj = try? JSONSerialization.jsonObject(with: data) else { continue }
             collectTypes(from: obj, into: &types)
         }
@@ -230,7 +230,7 @@ struct ContentExtractor {
         let exclusions = "script, style, nav, header, footer, [aria-hidden=true]"
         guard let body = doc.body() else { return 0 }
         if let excluded = try? body.select(exclusions) {
-            try? excluded.remove()
+            _ = try? excluded.remove()
         }
         let text = (try? body.text()) ?? ""
         // Split on whitespace and filter empty strings

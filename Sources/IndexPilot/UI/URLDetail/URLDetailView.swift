@@ -182,11 +182,11 @@ struct DirectivesTab: View {
             LazyVStack(alignment: .leading, spacing: 0) {
                 DetailSection(title: "Robots Directives") {
                     DetailRow("Source", value: url.robotsDirectives.source ?? "none")
-                    DirectiveRow("Noindex", value: url.robotsDirectives.noindex)
-                    DirectiveRow("Nofollow", value: url.robotsDirectives.nofollow)
-                    DirectiveRow("Noarchive", value: url.robotsDirectives.noarchive)
-                    DirectiveRow("Nosnippet", value: url.robotsDirectives.nosnippet)
-                    DirectiveRow("Noimageindex", value: url.robotsDirectives.noimageindex)
+                    DirectiveRow(label: "Noindex", value: url.robotsDirectives.noindex)
+                    DirectiveRow(label: "Nofollow", value: url.robotsDirectives.nofollow)
+                    DirectiveRow(label: "Noarchive", value: url.robotsDirectives.noarchive)
+                    DirectiveRow(label: "Nosnippet", value: url.robotsDirectives.nosnippet)
+                    DirectiveRow(label: "Noimageindex", value: url.robotsDirectives.noimageindex)
                     if let date = url.robotsDirectives.unavailableAfter {
                         DetailRow("Unavailable After", value: date.formatted(date: .abbreviated, time: .omitted))
                     }
@@ -226,11 +226,11 @@ struct DirectivesTab: View {
                 }
 
                 DetailSection(title: "Indexability") {
-                    DirectiveRow("Indexable", value: url.isIndexable)
+                    DirectiveRow(label: "Indexable", value: url.isIndexable)
                     if let reason = url.indexabilityReason {
                         DetailRow("Reason", value: reason.rawValue, valueColor: .orange)
                     }
-                    DirectiveRow("Blocked by Robots", value: url.isBlockedByRobots)
+                    DirectiveRow(label: "Blocked by Robots", value: url.isBlockedByRobots)
                 }
             }
             .padding(.horizontal, 12)
@@ -455,7 +455,7 @@ struct DirectiveRow: View {
             Text(label).font(.caption).foregroundStyle(.secondary).frame(width: 130, alignment: .leading)
             Image(systemName: value ? "checkmark" : "minus")
                 .font(.caption)
-                .foregroundStyle(value ? .orange : .tertiary)
+                .foregroundStyle(value ? .orange : Color.secondary.opacity(0.6))
             if value { Text("Yes").font(.caption).foregroundStyle(.orange) }
         }
         .padding(.vertical, 5)

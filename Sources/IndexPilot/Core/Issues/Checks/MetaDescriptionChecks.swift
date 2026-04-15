@@ -1,4 +1,5 @@
 import Foundation
+import GRDB
 
 struct MissingMetaDescriptionCheck: PerURLCheck {
     let definition = IssueDefinition(
@@ -50,7 +51,7 @@ struct DuplicateMetaDescriptionCheck: AggregateCheck {
     )
 
     func evaluate(sessionID: UUID, db: DatabaseManager) -> [Issue] {
-        guard let rows = try? db.pool.read(block: { db in
+        guard let rows = try? db.pool.read({ db in
             try Row.fetchAll(db, sql: """
                 SELECT normalized_url, meta_description FROM crawled_urls
                 WHERE session_id = ? AND meta_description IS NOT NULL AND is_indexable = 1
