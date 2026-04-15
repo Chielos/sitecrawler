@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /private/
+Disallow: /admin/
+Allow: /private/public-section/
+
+User-agent: IndexPilot
+Allow: /
+
+Sitemap: https://example.com/sitemap.xml
+Sitemap: https://example.com/sitemap-news.xml

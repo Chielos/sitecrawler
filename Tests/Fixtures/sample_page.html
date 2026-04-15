@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Product Page — IndexPilot QA Fixture</title>
+    <meta name="description" content="A sample product page used for testing the IndexPilot SEO crawler extraction logic.">
+    <link rel="canonical" href="https://example.com/products/sample">
+    <link rel="alternate" hreflang="en" href="https://example.com/products/sample">
+    <link rel="alternate" hreflang="fr" href="https://fr.example.com/produits/exemple">
+    <link rel="alternate" hreflang="de" href="https://de.example.com/produkte/muster">
+    <link rel="alternate" hreflang="x-default" href="https://example.com/products/sample">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "Sample Widget",
+        "description": "A great widget for testing purposes",
+        "offers": {
+            "@type": "Offer",
+            "price": "19.99",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/products/">Products</a>
+            <a href="/about/">About</a>
+            <a href="/contact/">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Sample Widget</h1>
+        <p>This is a sample page for testing IndexPilot's content extraction capabilities. It contains
+        several hundred words of realistic content to ensure word count estimation works correctly.</p>
+
+        <h2>Product Features</h2>
+        <ul>
+            <li>Feature one: extremely useful for testing parsers and extractors</li>
+            <li>Feature two: works well with SwiftSoup and the IndexPilot extractor</li>
+            <li>Feature three: includes several internal and external links</li>
+        </ul>
+
+        <h2>Technical Specifications</h2>
+        <p>This product meets various technical specifications that make it ideal for use in
+        automated testing environments. The specifications were carefully crafted to include
+        a reasonable amount of text for word count testing purposes.</p>
+
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+        <h2>Related Resources</h2>
+        <p>See also:</p>
+        <ul>
+            <li><a href="/products/related-1/">Related Product One</a></li>
+            <li><a href="/products/related-2/">Related Product Two</a></li>
+            <li><a href="/blog/how-to-use-widgets/">How to Use Widgets</a></li>
+            <li><a href="https://external-partner.com/review" rel="nofollow">External Review</a></li>
+        </ul>
+
+        <img src="/images/sample-widget.jpg" alt="Sample Widget product photo" width="600" height="400">
+        <img src="/images/sample-widget-detail.jpg" alt="Sample Widget close-up detail" width="600" height="400">
+    </main>
+
+    <footer>
+        <a href="/privacy/">Privacy Policy</a>
+        <a href="/terms/">Terms of Service</a>
+        <a href="/sitemap.xml">Sitemap</a>
+    </footer>
+</body>
+</html>
