@@ -4,3 +4,7 @@
 xcuserdata/
 *.xcuserstate
 .vscode/
+.vscode/
+xcuserdata/
+*.xcuserstate
+.swiftpm/xcode/package.xcworkspace/xcuserdata/
