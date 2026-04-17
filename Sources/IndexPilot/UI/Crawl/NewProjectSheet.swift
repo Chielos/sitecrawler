@@ -8,6 +8,9 @@ struct NewProjectSheet: View {
     @State private var seedURLText: String = ""
     @State private var config = CrawlConfiguration()
     @State private var showAdvanced = false
+    @FocusState private var focusedField: Field?
+
+    private enum Field { case name, seedURL }
 
     private var isValid: Bool {
         !name.trimmingCharacters(in: .whitespaces).isEmpty
@@ -32,9 +35,11 @@ struct NewProjectSheet: View {
                 Section {
                     LabeledContent("Project Name") {
                         TextField("My Website", text: $name)
+                            .focused($focusedField, equals: .name)
                     }
                     LabeledContent("Seed URL(s)") {
                         TextEditor(text: $seedURLText)
+                            .focused($focusedField, equals: .seedURL)
                             .font(.system(.body, design: .monospaced))
                             .frame(height: 80)
                     }
@@ -100,5 +105,8 @@ struct NewProjectSheet: View {
             .padding(20)
         }
         .frame(width: 520, height: 620)
+        .onAppear {
+            focusedField = .name
+        }
     }
 }

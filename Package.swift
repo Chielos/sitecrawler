@@ -7,16 +7,14 @@ let package = Package(
         .macOS(.v14)
     ],
     products: [
-        .executable(name: "IndexPilot", targets: ["IndexPilot"]),
+        .library(name: "IndexPilot", targets: ["IndexPilot"]),
     ],
     dependencies: [
-        // HTML parsing — Swift port of Jsoup, the industry standard
         .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.7.0"),
-        // SQLite ORM with migrations and typed queries
         .package(url: "https://github.com/groue/GRDB.swift.git", from: "6.27.0"),
     ],
     targets: [
-        .executableTarget(
+        .target(
             name: "IndexPilot",
             dependencies: [
                 .product(name: "SwiftSoup", package: "SwiftSoup"),

@@ -40,6 +40,9 @@ final class AppEnvironment {
     func loadProjects() {
         do {
             projects = try db.fetchAllProjects()
+            if selectedProject == nil {
+                selectedProject = projects.first
+            }
         } catch {
             errorMessage = "Failed to load projects: \(error.localizedDescription)"
         }

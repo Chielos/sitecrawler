@@ -1,15 +1,21 @@
 import SwiftUI
 
-@main
-struct IndexPilotApp: App {
+public struct IndexPilotScene: Scene {
 
     @State private var env = AppEnvironment()
+    @State private var showNewProject = false
 
-    var body: some Scene {
+    public init() {}
+
+    public var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(showNewProject: $showNewProject)
                 .environment(env)
                 .frame(minWidth: 960, minHeight: 600)
+                .sheet(isPresented: $showNewProject) {
+                    NewProjectSheet()
+                        .environment(env)
+                }
         }
         .windowStyle(.titleBar)
         .windowToolbarStyle(.unified)
