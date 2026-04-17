@@ -2,7 +2,7 @@ import SwiftUI
 import IndexPilot
 
 @main
-struct IndexPilotApp: App {
+struct sitecrawlerApp: App {
     var body: some Scene {
         WindowGroup {
             IndexPilot.ContentView()

@@ -24,9 +24,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E81547142F9230EF00C4F2E8 /* IndexPilot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IndexPilot.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E81547212F9230F100C4F2E8 /* IndexPilotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IndexPilotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E815472B2F9230F100C4F2E8 /* IndexPilotUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IndexPilotUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E81547142F9230EF00C4F2E8 /* SiteCrawler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SiteCrawler.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E81547212F9230F100C4F2E8 /* SiteCrawlerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SiteCrawlerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E815472B2F9230F100C4F2E8 /* SiteCrawlerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SiteCrawlerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -78,6 +78,7 @@
 				E81547162F9230EF00C4F2E8 /* IndexPilot */,
 				E81547242F9230F100C4F2E8 /* IndexPilotTests */,
 				E815472E2F9230F100C4F2E8 /* IndexPilotUITests */,
+				E815473F2F92384F00C4F2E8 /* Frameworks */,
 				E81547152F9230EF00C4F2E8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,19 +86,26 @@
 		E81547152F9230EF00C4F2E8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E81547142F9230EF00C4F2E8 /* IndexPilot.app */,
-				E81547212F9230F100C4F2E8 /* IndexPilotTests.xctest */,
-				E815472B2F9230F100C4F2E8 /* IndexPilotUITests.xctest */,
+				E81547142F9230EF00C4F2E8 /* SiteCrawler.app */,
+				E81547212F9230F100C4F2E8 /* SiteCrawlerTests.xctest */,
+				E815472B2F9230F100C4F2E8 /* SiteCrawlerUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E815473F2F92384F00C4F2E8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E81547132F9230EF00C4F2E8 /* IndexPilot */ = {
+		E81547132F9230EF00C4F2E8 /* SiteCrawler */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E81547352F9230F100C4F2E8 /* Build configuration list for PBXNativeTarget "IndexPilot" */;
+			buildConfigurationList = E81547352F9230F100C4F2E8 /* Build configuration list for PBXNativeTarget "SiteCrawler" */;
 			buildPhases = (
 				E81547102F9230EF00C4F2E8 /* Sources */,
 				E81547112F9230EF00C4F2E8 /* Frameworks */,
@@ -110,16 +118,16 @@
 			fileSystemSynchronizedGroups = (
 				E81547162F9230EF00C4F2E8 /* IndexPilot */,
 			);
-			name = IndexPilot;
+			name = SiteCrawler;
 			packageProductDependencies = (
 			);
 			productName = IndexPilot;
-			productReference = E81547142F9230EF00C4F2E8 /* IndexPilot.app */;
+			productReference = E81547142F9230EF00C4F2E8 /* SiteCrawler.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E81547202F9230F100C4F2E8 /* IndexPilotTests */ = {
+		E81547202F9230F100C4F2E8 /* SiteCrawlerTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E81547382F9230F100C4F2E8 /* Build configuration list for PBXNativeTarget "IndexPilotTests" */;
+			buildConfigurationList = E81547382F9230F100C4F2E8 /* Build configuration list for PBXNativeTarget "SiteCrawlerTests" */;
 			buildPhases = (
 				E815471D2F9230F100C4F2E8 /* Sources */,
 				E815471E2F9230F100C4F2E8 /* Frameworks */,
@@ -133,16 +141,16 @@
 			fileSystemSynchronizedGroups = (
 				E81547242F9230F100C4F2E8 /* IndexPilotTests */,
 			);
-			name = IndexPilotTests;
+			name = SiteCrawlerTests;
 			packageProductDependencies = (
 			);
 			productName = IndexPilotTests;
-			productReference = E81547212F9230F100C4F2E8 /* IndexPilotTests.xctest */;
+			productReference = E81547212F9230F100C4F2E8 /* SiteCrawlerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		E815472A2F9230F100C4F2E8 /* IndexPilotUITests */ = {
+		E815472A2F9230F100C4F2E8 /* SiteCrawlerUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E815473B2F9230F100C4F2E8 /* Build configuration list for PBXNativeTarget "IndexPilotUITests" */;
+			buildConfigurationList = E815473B2F9230F100C4F2E8 /* Build configuration list for PBXNativeTarget "SiteCrawlerUITests" */;
 			buildPhases = (
 				E81547272F9230F100C4F2E8 /* Sources */,
 				E81547282F9230F100C4F2E8 /* Frameworks */,
@@ -156,11 +164,11 @@
 			fileSystemSynchronizedGroups = (
 				E815472E2F9230F100C4F2E8 /* IndexPilotUITests */,
 			);
-			name = IndexPilotUITests;
+			name = SiteCrawlerUITests;
 			packageProductDependencies = (
 			);
 			productName = IndexPilotUITests;
-			productReference = E815472B2F9230F100C4F2E8 /* IndexPilotUITests.xctest */;
+			productReference = E815472B2F9230F100C4F2E8 /* SiteCrawlerUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -186,7 +194,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E815470F2F9230EF00C4F2E8 /* Build configuration list for PBXProject "IndexPilot" */;
+			buildConfigurationList = E815470F2F9230EF00C4F2E8 /* Build configuration list for PBXProject "SiteCrawler" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -203,9 +211,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E81547132F9230EF00C4F2E8 /* IndexPilot */,
-				E81547202F9230F100C4F2E8 /* IndexPilotTests */,
-				E815472A2F9230F100C4F2E8 /* IndexPilotUITests */,
+				E81547132F9230EF00C4F2E8 /* SiteCrawler */,
+				E81547202F9230F100C4F2E8 /* SiteCrawlerTests */,
+				E815472A2F9230F100C4F2E8 /* SiteCrawlerUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -261,12 +269,12 @@
 /* Begin PBXTargetDependency section */
 		E81547232F9230F100C4F2E8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E81547132F9230EF00C4F2E8 /* IndexPilot */;
+			target = E81547132F9230EF00C4F2E8 /* SiteCrawler */;
 			targetProxy = E81547222F9230F100C4F2E8 /* PBXContainerItemProxy */;
 		};
 		E815472D2F9230F100C4F2E8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E81547132F9230EF00C4F2E8 /* IndexPilot */;
+			target = E81547132F9230EF00C4F2E8 /* SiteCrawler */;
 			targetProxy = E815472C2F9230F100C4F2E8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -475,7 +483,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IndexPilot.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/IndexPilot";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SiteCrawler.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SiteCrawler";
 			};
 			name = Debug;
 		};
@@ -496,7 +504,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IndexPilot.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/IndexPilot";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SiteCrawler.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SiteCrawler";
 			};
 			name = Release;
 		};
@@ -541,7 +549,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E815470F2F9230EF00C4F2E8 /* Build configuration list for PBXProject "IndexPilot" */ = {
+		E815470F2F9230EF00C4F2E8 /* Build configuration list for PBXProject "SiteCrawler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E81547332F9230F100C4F2E8 /* Debug */,
@@ -550,7 +558,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E81547352F9230F100C4F2E8 /* Build configuration list for PBXNativeTarget "IndexPilot" */ = {
+		E81547352F9230F100C4F2E8 /* Build configuration list for PBXNativeTarget "SiteCrawler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E81547362F9230F100C4F2E8 /* Debug */,
@@ -559,7 +567,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E81547382F9230F100C4F2E8 /* Build configuration list for PBXNativeTarget "IndexPilotTests" */ = {
+		E81547382F9230F100C4F2E8 /* Build configuration list for PBXNativeTarget "SiteCrawlerTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E81547392F9230F100C4F2E8 /* Debug */,
@@ -568,7 +576,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E815473B2F9230F100C4F2E8 /* Build configuration list for PBXNativeTarget "IndexPilotUITests" */ = {
+		E815473B2F9230F100C4F2E8 /* Build configuration list for PBXNativeTarget "SiteCrawlerUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E815473C2F9230F100C4F2E8 /* Debug */,
