@@ -2,8 +2,8 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(AppEnvironment.self) private var env
+    @Binding var showNewProject: Bool
     @State private var selectedSidebarItem: SidebarItem? = .urls
-    @State private var showNewProjectSheet = false
     @State private var showCrawlConfig = false
     @State private var selectedURL: CrawledURL?
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
@@ -12,7 +12,7 @@ struct ContentView: View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
             SidebarView(
                 selectedItem: $selectedSidebarItem,
-                showNewProject: $showNewProjectSheet
+                showNewProject: $showNewProject
             )
             .navigationSplitViewColumnWidth(min: 200, ideal: 220, max: 280)
         } content: {
@@ -23,9 +23,6 @@ struct ContentView: View {
         }
         .toolbar {
             CrawlToolbar(showCrawlConfig: $showCrawlConfig)
-        }
-        .sheet(isPresented: $showNewProjectSheet) {
-            NewProjectSheet()
         }
         .sheet(isPresented: $showCrawlConfig) {
             if let project = env.selectedProject {
@@ -38,7 +35,7 @@ struct ContentView: View {
             Text(env.errorMessage ?? "")
         }
         .onReceive(NotificationCenter.default.publisher(for: .newProject)) { _ in
-            showNewProjectSheet = true
+            showNewProject = true
         }
     }
 
