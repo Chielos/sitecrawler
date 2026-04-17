@@ -45,7 +45,7 @@ struct ContentView: View {
         case .urls, .none:
             URLTableView(selectedURL: $selectedURL)
         case .issues:
-            IssueListView()
+            IssueListView(selectedURL: $selectedURL)
         case .exports:
             ExportsView()
         case .schedules:

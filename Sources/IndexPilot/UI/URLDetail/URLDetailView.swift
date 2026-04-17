@@ -113,6 +113,11 @@ struct OverviewTab: View {
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 0) {
+                // Metric cards strip
+                metricStrip
+                    .padding(.horizontal, 12)
+                    .padding(.top, 12)
+
                 Group {
                     DetailSection(title: "Titles & Descriptions") {
                         DetailRow("Title", value: url.title, badge: url.titleLength.map { "\($0) chars" })
@@ -161,14 +166,81 @@ struct OverviewTab: View {
                         }
                     }
                 }
+                .padding(.horizontal, 12)
             }
-            .padding(.horizontal, 12)
-            .padding(.top, 12)
+            .padding(.top, 0)
         }
+    }
+
+    private var metricStrip: some View {
+        HStack(spacing: 10) {
+            MetricCard(
+                value: url.statusCode.map(String.init) ?? "—",
+                label: "Status",
+                color: statusColor
+            )
+            MetricCard(
+                value: url.responseTimeMs.map { "\($0)ms" } ?? "—",
+                label: "Response",
+                color: responseTimeColor
+            )
+            MetricCard(
+                value: url.wordCount.map(String.init) ?? "—",
+                label: "Words",
+                color: .blue
+            )
+            MetricCard(
+                value: url.contentSizeBytes.map { formatBytes($0) } ?? "—",
+                label: "Size",
+                color: .purple
+            )
+        }
+    }
+
+    private var statusColor: Color {
+        switch url.statusCode ?? 0 {
+        case 200...299: return .green
+        case 300...399: return .blue
+        case 400...499: return .orange
+        case 500...599: return .red
+        default: return .secondary
+        }
+    }
+
+    private var responseTimeColor: Color {
+        guard let ms = url.responseTimeMs else { return .secondary }
+        if ms < 500 { return .green }
+        if ms < 1500 { return .orange }
+        return .red
     }
 
     private func formatBytes(_ bytes: Int) -> String {
         ByteCountFormatter.string(fromByteCount: Int64(bytes), countStyle: .file)
+    }
+}
+
+// MARK: — Metric Card
+
+struct MetricCard: View {
+    let value: String
+    let label: String
+    let color: Color
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(value)
+                .font(.system(size: 18, weight: .semibold, design: .rounded))
+                .foregroundStyle(color)
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
+            Text(label)
+                .font(.system(size: 11))
+                .foregroundStyle(.secondary)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 10)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(color.opacity(0.08), in: RoundedRectangle(cornerRadius: 8))
     }
 }
 

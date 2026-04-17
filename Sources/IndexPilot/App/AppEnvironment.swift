@@ -59,6 +59,20 @@ final class AppEnvironment {
         }
     }
 
+    func updateProject(_ project: Project) {
+        do {
+            try db.updateProject(project)
+            if let i = projects.firstIndex(where: { $0.id == project.id }) {
+                projects[i] = project
+            }
+            if selectedProject?.id == project.id {
+                selectedProject = project
+            }
+        } catch {
+            errorMessage = "Failed to update project: \(error.localizedDescription)"
+        }
+    }
+
     func deleteProject(_ project: Project) {
         do {
             try db.deleteProject(id: project.id)

@@ -4,13 +4,23 @@ struct NewProjectSheet: View {
     @Environment(AppEnvironment.self) private var env
     @Environment(\.dismiss) private var dismiss
 
-    @State private var name: String = ""
-    @State private var seedURLText: String = ""
-    @State private var config = CrawlConfiguration()
-    @State private var showAdvanced = false
+    let editingProject: Project?
+
+    @State private var name: String
+    @State private var seedURLText: String
+    @State private var config: CrawlConfiguration
     @FocusState private var focusedField: Field?
 
     private enum Field { case name, seedURL }
+
+    init(editingProject: Project? = nil) {
+        self.editingProject = editingProject
+        _name = State(initialValue: editingProject?.name ?? "")
+        _seedURLText = State(initialValue: editingProject?.seedURLs.joined(separator: "\n") ?? "")
+        _config = State(initialValue: editingProject?.configuration ?? CrawlConfiguration())
+    }
+
+    private var isEditing: Bool { editingProject != nil }
 
     private var isValid: Bool {
         !name.trimmingCharacters(in: .whitespaces).isEmpty
@@ -22,8 +32,9 @@ struct NewProjectSheet: View {
             // Header
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("New Project").font(.title2.weight(.semibold))
-                    Text("Configure a new SEO crawl project").font(.callout).foregroundStyle(.secondary)
+                    Text(isEditing ? "Edit Project" : "New Project").font(.title2.weight(.semibold))
+                    Text(isEditing ? "Update project name, URLs, and crawl settings" : "Configure a new SEO crawl project")
+                        .font(.callout).foregroundStyle(.secondary)
                 }
                 Spacer()
             }
@@ -90,12 +101,24 @@ struct NewProjectSheet: View {
                 Button("Cancel") { dismiss() }
                     .keyboardShortcut(.escape)
                 Spacer()
-                Button("Create Project") {
+                Button(isEditing ? "Save Changes" : "Create Project") {
                     let urls = seedURLText
                         .components(separatedBy: .newlines)
                         .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
                         .filter { !$0.isEmpty }
-                    env.createProject(name: name, seedURLs: urls, config: config)
+                    if let existing = editingProject {
+                        let updated = Project(
+                            id: existing.id,
+                            name: name,
+                            seedURLs: urls,
+                            configuration: config,
+                            createdAt: existing.createdAt,
+                            updatedAt: Date()
+                        )
+                        env.updateProject(updated)
+                    } else {
+                        env.createProject(name: name, seedURLs: urls, config: config)
+                    }
                     dismiss()
                 }
                 .keyboardShortcut(.return)

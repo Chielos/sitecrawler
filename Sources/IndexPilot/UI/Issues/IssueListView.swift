@@ -2,11 +2,13 @@ import SwiftUI
 
 struct IssueListView: View {
     @Environment(AppEnvironment.self) private var env
+    @Binding var selectedURL: CrawledURL?
     @State private var issues: [Issue] = []
     @State private var selectedCategory: IssueCategory? = nil
     @State private var selectedSeverity: IssueSeverity? = nil
     @State private var searchText = ""
     @State private var isLoading = false
+    @State private var selectedIssueID: Issue.ID?
 
     var body: some View {
         VStack(spacing: 0) {
@@ -71,7 +73,7 @@ struct IssueListView: View {
     // MARK: — Issue Table
 
     private var issueTable: some View {
-        Table(of: Issue.self) {
+        Table(of: Issue.self, selection: $selectedIssueID) {
             TableColumn("Severity") { issue in
                 SeverityBadge(severity: issue.severity)
             }
@@ -98,6 +100,11 @@ struct IssueListView: View {
             ForEach(filteredIssues) { issue in
                 TableRow(issue)
             }
+        }
+        .onChange(of: selectedIssueID) { _, newID in
+            guard let id = newID,
+                  let issue = filteredIssues.first(where: { $0.id == id }) else { return }
+            selectedURL = env.recentURLs.first { $0.normalizedURL == issue.url }
         }
     }
 

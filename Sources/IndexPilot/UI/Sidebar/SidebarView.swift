@@ -5,10 +5,13 @@ struct SidebarView: View {
     @Binding var selectedItem: SidebarItem?
     @Binding var showNewProject: Bool
 
+    @State private var editingProject: Project?
+    @State private var deletingProject: Project?
+
     var body: some View {
         List(selection: $selectedItem) {
-            // Project picker
-            Section("Project") {
+            // Project list
+            Section("Projects") {
                 if env.projects.isEmpty {
                     Button {
                         showNewProject = true
@@ -17,16 +20,24 @@ struct SidebarView: View {
                     }
                     .buttonStyle(.plain)
                 } else {
-                    Picker("", selection: Binding(
-                        get: { env.selectedProject },
-                        set: { env.selectedProject = $0 }
-                    )) {
-                        ForEach(env.projects) { project in
-                            Text(project.name).tag(Optional(project))
+                    ForEach(env.projects) { project in
+                        ProjectRow(
+                            project: project,
+                            isSelected: env.selectedProject?.id == project.id
+                        )
+                        .contentShape(Rectangle())
+                        .onTapGesture { env.selectedProject = project }
+                        .contextMenu {
+                            Button("Edit Project…") { editingProject = project }
+                            Divider()
+                            Button("Delete Project…", role: .destructive) { deletingProject = project }
                         }
+                        .listRowBackground(
+                            env.selectedProject?.id == project.id
+                                ? Color.accentColor.opacity(0.12)
+                                : Color.clear
+                        )
                     }
-                    .labelsHidden()
-                    .pickerStyle(.menu)
                 }
             }
 
@@ -40,18 +51,7 @@ struct SidebarView: View {
             // Navigation items
             Section("Analysis") {
                 ForEach(SidebarItem.allCases, id: \.self) { item in
-                    HStack {
-                        Label(item.rawValue, systemImage: item.icon)
-                        Spacer(minLength: 8)
-                        if let count = badgeCount(for: item) {
-                            Text("\(count)")
-                                .font(.caption2.weight(.semibold))
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
-                                .background(Color.secondary.opacity(0.16), in: Capsule())
-                                .foregroundStyle(.secondary)
-                        }
-                    }
+                    SidebarItemRow(item: item, badge: badgeCount(for: item))
                         .tag(item)
                 }
             }
@@ -68,6 +68,19 @@ struct SidebarView: View {
                 .help("New Project")
             }
         }
+        .sheet(item: $editingProject) { project in
+            NewProjectSheet(editingProject: project)
+                .environment(env)
+        }
+        .alert("Delete Project", isPresented: .constant(deletingProject != nil), presenting: deletingProject) { project in
+            Button("Delete", role: .destructive) {
+                env.deleteProject(project)
+                deletingProject = nil
+            }
+            Button("Cancel", role: .cancel) { deletingProject = nil }
+        } message: { project in
+            Text("Are you sure you want to delete \"\(project.name)\"? This cannot be undone.")
+        }
     }
 
     private func badgeCount(for item: SidebarItem) -> Int? {
@@ -78,6 +91,54 @@ struct SidebarView: View {
         default:
             return nil
         }
+    }
+}
+
+// MARK: — Sidebar Item Row
+
+struct SidebarItemRow: View {
+    let item: SidebarItem
+    let badge: Int?
+
+    var body: some View {
+        HStack {
+            Label(item.rawValue, systemImage: item.icon)
+            Spacer(minLength: 8)
+            if let count = badge {
+                let countText = Text("\(count)")
+                    .font(.caption2.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                countText
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(Color.secondary.opacity(0.16), in: Capsule())
+            }
+        }
+    }
+}
+
+// MARK: — Project Row
+
+struct ProjectRow: View {
+    let project: Project
+    let isSelected: Bool
+
+    private var domain: String? {
+        project.seedURLs.first.flatMap { URL(string: $0)?.host }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(project.name)
+                .font(.callout.weight(isSelected ? .semibold : .regular))
+                .foregroundStyle(.primary)
+            if let domain = domain {
+                Text(domain)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding(.vertical, 2)
     }
 }
 

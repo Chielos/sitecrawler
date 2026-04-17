@@ -45,6 +45,15 @@ struct URLTableView: View {
             Text("\(filteredURLs.count) URLs")
                 .font(.caption)
                 .foregroundStyle(.secondary)
+
+            Button {
+                exportCSV()
+            } label: {
+                Label("Export CSV", systemImage: "arrow.down.doc")
+            }
+            .buttonStyle(.bordered)
+            .disabled(env.activeSession == nil)
+            .help("Export URLs to CSV")
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
@@ -137,6 +146,29 @@ struct URLTableView: View {
 
     private var navigationTitle: String {
         env.selectedProject.map { "URLs — \($0.name)" } ?? "URLs"
+    }
+
+    // MARK: — CSV Export
+
+    private func exportCSV() {
+        guard let session = env.activeSession else { return }
+        Task {
+            do {
+                let fileURL = try await CSVExporter.exportURLs(sessionID: session.id, db: env.db)
+                await MainActor.run {
+                    let panel = NSSavePanel()
+                    panel.nameFieldStringValue = fileURL.lastPathComponent
+                    panel.begin { response in
+                        guard response == .OK, let dest = panel.url else { return }
+                        try? FileManager.default.copyItem(at: fileURL, to: dest)
+                    }
+                }
+            } catch {
+                await MainActor.run {
+                    env.errorMessage = "Export failed: \(error.localizedDescription)"
+                }
+            }
+        }
     }
 
     private var selectedURLID: Binding<CrawledURL.ID?> {

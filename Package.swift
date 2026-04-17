@@ -21,9 +21,7 @@ let package = Package(
                 .product(name: "GRDB", package: "GRDB.swift"),
             ],
             path: "Sources/IndexPilot",
-            resources: [
-                .copy("Info.plist"),
-            ],
+            exclude: ["Info.plist"],
             swiftSettings: [
                 .enableExperimentalFeature("StrictConcurrency"),
             ]

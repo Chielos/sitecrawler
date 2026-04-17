@@ -89,7 +89,9 @@ struct CrawlToolbar: ToolbarContent {
             do {
                 let url = try await CSVExporter.exportIssues(sessionID: session.id, db: env.db)
                 await MainActor.run { savePanel(url: url) }
-            } catch { }
+            } catch {
+                await MainActor.run { env.errorMessage = "Export failed: \(error.localizedDescription)" }
+            }
         }
     }
 
@@ -99,7 +101,9 @@ struct CrawlToolbar: ToolbarContent {
             do {
                 let url = try await JSONExporter.export(session: session, db: env.db)
                 await MainActor.run { savePanel(url: url) }
-            } catch { }
+            } catch {
+                await MainActor.run { env.errorMessage = "Export failed: \(error.localizedDescription)" }
+            }
         }
     }
 
@@ -110,7 +114,9 @@ struct CrawlToolbar: ToolbarContent {
             do {
                 let url = try await SitemapExporter.export(sessionID: session.id, baseURL: seedURL, db: env.db)
                 await MainActor.run { savePanel(url: url) }
-            } catch { }
+            } catch {
+                await MainActor.run { env.errorMessage = "Export failed: \(error.localizedDescription)" }
+            }
         }
     }
 
