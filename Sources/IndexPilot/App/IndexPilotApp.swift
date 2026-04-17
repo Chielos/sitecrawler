@@ -1,12 +1,13 @@
 import SwiftUI
 
-@main
-struct IndexPilotApp: App {
+public struct IndexPilotScene: Scene {
 
     @State private var env = AppEnvironment()
     @State private var showNewProject = false
 
-    var body: some Scene {
+    public init() {}
+
+    public var body: some Scene {
         WindowGroup {
             ContentView(showNewProject: $showNewProject)
                 .environment(env)

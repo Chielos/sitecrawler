@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E81547402F92390000C4F2E8 /* IndexPilot in Frameworks */ = {isa = PBXBuildFile; productRef = E81547412F92390000C4F2E8 /* IndexPilot */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		E81547222F9230F100C4F2E8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E81547402F92390000C4F2E8 /* IndexPilot in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +125,7 @@
 			);
 			name = SiteCrawler;
 			packageProductDependencies = (
+				E81547412F92390000C4F2E8 /* IndexPilot */,
 			);
 			productName = IndexPilot;
 			productReference = E81547142F9230EF00C4F2E8 /* SiteCrawler.app */;
@@ -593,6 +599,14 @@
 			relativePath = ../../sitecrawler;
 		};
 /* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E81547412F92390000C4F2E8 /* IndexPilot */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E815473E2F92322100C4F2E8 /* XCLocalSwiftPackageReference "../../sitecrawler" */;
+			productName = IndexPilot;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E815470C2F9230EF00C4F2E8 /* Project object */;
 }

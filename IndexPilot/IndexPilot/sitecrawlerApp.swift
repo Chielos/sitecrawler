@@ -4,8 +4,6 @@ import IndexPilot
 @main
 struct sitecrawlerApp: App {
     var body: some Scene {
-        WindowGroup {
-            IndexPilot.ContentView()
-        }
+        IndexPilotScene()
     }
 }
