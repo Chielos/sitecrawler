@@ -152,7 +152,7 @@ final class IssueEngineTests: XCTestCase {
     // MARK: — Issue Severity
 
     func testHTTPErrorIssueHasErrorSeverity() {
-        var u = makeURL(statusCode: 404, isIndexable: false)
+        let u = makeURL(statusCode: 404, isIndexable: false)
         let issues = engine.evaluate(u)
         let issue = issues.first { $0.issueKey == "http_4xx" }
         XCTAssertEqual(issue?.severity, .error)

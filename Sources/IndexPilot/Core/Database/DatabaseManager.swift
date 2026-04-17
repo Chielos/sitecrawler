@@ -19,11 +19,13 @@ final class DatabaseManager: Sendable {
         try migrate()
     }
 
-    /// In-memory database for testing.
+    /// Temporary file-backed database for testing (DatabasePool requires WAL, which `:memory:` doesn't support).
     init() throws {
         var config = Configuration()
         config.label = "IndexPilot.DB.InMemory"
-        pool = try DatabasePool(path: ":memory:", configuration: config)
+        let tempPath = (NSTemporaryDirectory() as NSString)
+            .appendingPathComponent("IndexPilot-test-\(UUID().uuidString).sqlite")
+        pool = try DatabasePool(path: tempPath, configuration: config)
         try migrate()
     }
 

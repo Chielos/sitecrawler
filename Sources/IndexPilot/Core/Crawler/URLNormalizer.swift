@@ -27,7 +27,7 @@ struct URLNormalizer {
             resolved = URL(string: trimmed)
         }
         guard let url = resolved else { return nil }
-        guard url.scheme == "http" || url.scheme == "https" else { return nil }
+        guard let scheme = url.scheme?.lowercased(), scheme == "http" || scheme == "https" else { return nil }
 
         return applyNormalizationRules(to: url)
     }

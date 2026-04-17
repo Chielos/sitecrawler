@@ -7,7 +7,7 @@ struct CrawlIssue: Identifiable, Hashable, Sendable {
     let status: String
     let detail: String
 
-    init(id: UUID = UUID(), page: String, status: String, detail: String) {
+    nonisolated init(id: UUID = UUID(), page: String, status: String, detail: String) {
         self.id = id
         self.page = page
         self.status = status

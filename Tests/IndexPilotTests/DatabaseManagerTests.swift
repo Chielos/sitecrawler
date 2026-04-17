@@ -61,7 +61,7 @@ final class DatabaseManagerTests: XCTestCase {
     func testUpdateSessionStatus() throws {
         let project = Project(name: "P", seedURLs: ["https://a.com"])
         try db.insertProject(project)
-        var session = CrawlSession(projectID: project.id, seedURLs: [], configuration: CrawlConfiguration())
+        let session = CrawlSession(projectID: project.id, seedURLs: [], configuration: CrawlConfiguration())
         try db.insertSession(session)
 
         try db.updateSessionStatus(session.id, status: .completed, completedAt: Date())
