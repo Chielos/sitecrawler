@@ -120,6 +120,7 @@
 			);
 			name = SiteCrawler;
 			packageProductDependencies = (
+				E8ECB7FF2F926A8200DA835F /* IndexPilot */,
 			);
 			productName = IndexPilot;
 			productReference = E81547142F9230EF00C4F2E8 /* SiteCrawler.app */;
@@ -423,7 +424,7 @@
 				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
 				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
 				ENABLE_RESOURCE_ACCESS_USB = NO;
-				ENABLE_USER_SELECTED_FILES = readonly;
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -466,7 +467,7 @@
 				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
 				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
 				ENABLE_RESOURCE_ACCESS_USB = NO;
-				ENABLE_USER_SELECTED_FILES = readonly;
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -606,6 +607,14 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E8ECB7FF2F926A8200DA835F /* IndexPilot */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E8ECB7FE2F926A8200DA835F /* XCLocalSwiftPackageReference "../../sitecrawler" */;
+			productName = IndexPilot;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCLocalSwiftPackageReference section */
 		E8ECB7FE2F926A8200DA835F /* XCLocalSwiftPackageReference "../../sitecrawler" */ = {

@@ -152,21 +152,17 @@ struct URLTableView: View {
 
     private func exportCSV() {
         guard let session = env.activeSession else { return }
-        Task {
+        Task { @MainActor in
             do {
                 let fileURL = try await CSVExporter.exportURLs(sessionID: session.id, db: env.db)
-                await MainActor.run {
-                    let panel = NSSavePanel()
-                    panel.nameFieldStringValue = fileURL.lastPathComponent
-                    panel.begin { response in
-                        guard response == .OK, let dest = panel.url else { return }
-                        try? FileManager.default.copyItem(at: fileURL, to: dest)
-                    }
+                let panel = NSSavePanel()
+                panel.nameFieldStringValue = fileURL.lastPathComponent
+                panel.begin { response in
+                    guard response == .OK, let dest = panel.url else { return }
+                    try? FileManager.default.copyItem(at: fileURL, to: dest)
                 }
             } catch {
-                await MainActor.run {
-                    env.errorMessage = "Export failed: \(error.localizedDescription)"
-                }
+                env.errorMessage = "Export failed: \(error.localizedDescription)"
             }
         }
     }

@@ -73,36 +73,36 @@ struct CrawlToolbar: ToolbarContent {
 
     private func exportCSV() {
         guard let session = env.activeSession else { return }
-        Task {
+        Task { @MainActor in
             do {
                 let url = try await CSVExporter.exportURLs(sessionID: session.id, db: env.db)
-                await MainActor.run { savePanel(url: url) }
+                savePanel(url: url)
             } catch {
-                await MainActor.run { env.errorMessage = "Export failed: \(error.localizedDescription)" }
+                env.errorMessage = "Export failed: \(error.localizedDescription)"
             }
         }
     }
 
     private func exportIssuesCSV() {
         guard let session = env.activeSession else { return }
-        Task {
+        Task { @MainActor in
             do {
                 let url = try await CSVExporter.exportIssues(sessionID: session.id, db: env.db)
-                await MainActor.run { savePanel(url: url) }
+                savePanel(url: url)
             } catch {
-                await MainActor.run { env.errorMessage = "Export failed: \(error.localizedDescription)" }
+                env.errorMessage = "Export failed: \(error.localizedDescription)"
             }
         }
     }
 
     private func exportJSON() {
         guard let session = env.activeSession else { return }
-        Task {
+        Task { @MainActor in
             do {
                 let url = try await JSONExporter.export(session: session, db: env.db)
-                await MainActor.run { savePanel(url: url) }
+                savePanel(url: url)
             } catch {
-                await MainActor.run { env.errorMessage = "Export failed: \(error.localizedDescription)" }
+                env.errorMessage = "Export failed: \(error.localizedDescription)"
             }
         }
     }
@@ -110,12 +110,12 @@ struct CrawlToolbar: ToolbarContent {
     private func exportSitemap() {
         guard let session = env.activeSession,
               let seedURL = env.selectedProject?.seedURLs.first.flatMap(URL.init) else { return }
-        Task {
+        Task { @MainActor in
             do {
                 let url = try await SitemapExporter.export(sessionID: session.id, baseURL: seedURL, db: env.db)
-                await MainActor.run { savePanel(url: url) }
+                savePanel(url: url)
             } catch {
-                await MainActor.run { env.errorMessage = "Export failed: \(error.localizedDescription)" }
+                env.errorMessage = "Export failed: \(error.localizedDescription)"
             }
         }
     }

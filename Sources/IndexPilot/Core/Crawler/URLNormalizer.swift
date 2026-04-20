@@ -138,31 +138,43 @@ struct URLNormalizer {
 
     /// Decode unreserved characters that are unnecessarily percent-encoded,
     /// and uppercase any remaining percent-encoded sequences.
+    /// RFC 3986 unreserved chars are ASCII-only: ALPHA / DIGIT / "-" / "." / "_" / "~"
     private func normalizePercentEncoding(_ s: String) -> String {
-        // Unreserved chars per RFC 3986: ALPHA / DIGIT / "-" / "." / "_" / "~"
-        let unreserved = CharacterSet.alphanumerics.union(.init(charactersIn: "-._~"))
+        // Restrict to ASCII unreserved chars only — do NOT use .alphanumerics which
+        // matches all Unicode letters and would decode e.g. %C3 → Ã (non-ASCII literal).
+        let asciiUnreserved = CharacterSet(charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~")
         var result = ""
         var i = s.startIndex
         while i < s.endIndex {
             let c = s[i]
             if c == "%" {
                 let hexStart = s.index(after: i)
-                guard let hexEnd = s.index(hexStart, offsetBy: 2, limitedBy: s.endIndex),
-                      let codePoint = UInt32(s[hexStart..<hexEnd], radix: 16),
-                      let scalar = Unicode.Scalar(codePoint) else {
-                    result.append(c)
-                    i = s.index(after: i)
-                    continue
-                }
-                if unreserved.contains(scalar) {
+                if let hexEnd = s.index(hexStart, offsetBy: 2, limitedBy: s.endIndex),
+                   let codePoint = UInt32(s[hexStart..<hexEnd], radix: 16),
+                   let scalar = Unicode.Scalar(codePoint),
+                   scalar.value < 128,
+                   asciiUnreserved.contains(scalar) {
+                    // Safely decode ASCII unreserved char
                     result.append(Character(scalar))
-                } else {
-                    // Uppercase hex
+                    i = hexEnd
+                } else if let hexEnd = s.index(hexStart, offsetBy: 2, limitedBy: s.endIndex),
+                          UInt32(s[hexStart..<hexEnd], radix: 16) != nil {
+                    // Valid %XX but not an unreserved ASCII char — uppercase hex only
                     result += "%" + String(s[hexStart..<hexEnd]).uppercased()
+                    i = hexEnd
+                } else {
+                    // Truncated or invalid percent sequence — encode the bare %
+                    result += "%25"
+                    i = s.index(after: i)
                 }
-                i = hexEnd
-            } else {
+            } else if c.isASCII {
                 result.append(c)
+                i = s.index(after: i)
+            } else {
+                // Non-ASCII literal — encode each UTF-8 byte
+                for byte in String(c).utf8 {
+                    result += String(format: "%%%02X", byte)
+                }
                 i = s.index(after: i)
             }
         }
